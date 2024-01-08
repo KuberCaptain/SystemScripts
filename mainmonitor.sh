@@ -22,9 +22,7 @@ display_process_info() {
     echo "$process_info"
 }
 
-# Function to track started and terminated processes (optional)
-# This function is more complex, as Bash does not provide a direct way to track process changes in real time.
-# However, a basic tracking mechanism can be implemented by storing process snapshots and comparing them.
+
 
 # Global variables for process tracking
 PREV_PROCESS_SNAPSHOT=""
@@ -53,15 +51,15 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     track_processes
 fi
 
-# Функция для отображения общей информации о загрузке CPU
+# function for cpuinf
 display_cpu_info() {
-    # Получение информации о загрузке CPU из /proc/stat
+    #  /proc/stat
     cpu_info=$(head -n 1 /proc/stat)
 
-    # Извлечение данных о времени работы CPU
+    # data about CPU
     read cpu user nice system idle iowait irq softirq steal guest guest_nice <<< $cpu_info
 
-    # Расчет процентов использования
+    # math all 
     total_prev_idle=$prev_idle
     total_prev_total=$prev_total
 
@@ -70,26 +68,25 @@ display_cpu_info() {
 
     total=$((idle + non_idle))
 
-    # Вычисление разницы во времени
+    # summ time
     totald=$((total - total_prev_total))
     idled=$((idle - total_prev_idle))
 
-    # Расчет процентной загрузки CPU
+    # % CPU
     cpu_percentage=$(awk "BEGIN {print ($totald - $idled)/$totald*100}")
 
-    # Обновление предыдущих значений
+    # update
     prev_idle=$idle
     prev_total=$total
 
-    # Вывод информации
     echo "CPU Usage: $cpu_percentage%"
 }
 
-# Инициализация переменных для расчета загрузки CPU
+# initial 
 prev_idle=0
 prev_total=0
 
-# При вызове этого скрипта напрямую, выводим информацию о CPU
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     display_cpu_info
 fi
