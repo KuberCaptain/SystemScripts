@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Функция для отображения сетевой статистики
+# Network statistics
 network_stats() {
     echo "Сетевая статистика:"
     cat /proc/net/dev | awk '{if(NR>2) print $1,$2,$10}'
 }
 
-# Функция для отображения информации о процессах
+# Process
 process_stats() {
     echo "Информация о процессах:"
     ps -aux --sort=-%mem | head -5
@@ -15,38 +15,38 @@ process_stats() {
     echo "Топ 5 процессов по использованию CPU"
 }
 
-# Функция для отображения информации о ресурсах системы
+# Resource of system
 resource_stats() {
-    echo "Информация о ресурсах системы:"
-    echo "Память:"
+    echo "info resourse:"
+    echo "Memory:"
     cat /proc/meminfo | grep -E 'MemTotal|MemFree|MemAvailable'
     echo "Загрузка CPU:"
     uptime
 }
 
-# Функция для отображения использования дискового пространства
+# Disc vol
 disk_usage() {
-    echo "Информация о дисковом пространстве:"
+    echo "info about storage:"
     df -h
-    echo "Список дисков и разделов:"
+    echo "discs and vol:"
     sudo fdisk -l
 }
 
-# Функция для отображения последних сообщений ядра
+# dmesg
 kernel_logs() {
-    echo "Последние сообщения ядра:"
+    echo "last 20 dmesg:"
     dmesg | tail -20
 }
 
-# Основной цикл
+# main loop
 while true; do
-    echo "Выберите действие:"
-    echo "1 - Сетевая статистика"
-    echo "2 - Информация о процессах"
-    echo "3 - Ресурсы системы"
-    echo "4 - Информация о дисковом пространстве"
-    echo "5 - Последние сообщения ядра"
-    echo "0 - Выход"
+    echo "choose one:"
+    echo "1 - Network statistics"
+    echo "2 - info process"
+    echo "3 - resource system"
+    echo "4 - Disk and vol"
+    echo "5 - Last mesages of kernel"
+    echo "0 - Exit"
     read -r -n 1 key
 
     case $key in
@@ -74,8 +74,8 @@ while true; do
             break
             ;;
         *)
-            echo "Неверный выбор"
+            echo "lololol"
     esac
 done
 
-echo "Мониторинг завершен."
+echo "Bye."
