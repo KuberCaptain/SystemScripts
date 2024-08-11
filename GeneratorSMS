@@ -1,0 +1,65 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QComboBox, QLineEdit, QTextEdit, QPushButton
+from PyQt5.QtCore import Qt
+
+
+class HebrewTextApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        layout = QVBoxLayout()
+
+        self.word_type_combo = QComboBox(self)
+        self.word_type_combo.addItems(["פתיחה", "עדכון", "סגירה"])
+        layout.addWidget(QLabel("סוג הודעה:"))
+        layout.addWidget(self.word_type_combo)
+
+        self.solution_type_combo = QComboBox(self)
+        self.solution_type_combo.addItems(["IP/VPN", "IP/ISP", "Networking", "PRI", "SIP"])
+        layout.addWidget(QLabel("סוג פתרון:"))
+        layout.addWidget(self.solution_type_combo)
+
+        self.client_name_edit = QLineEdit(self)
+        self.client_name_edit.setAlignment(Qt.AlignRight)
+        layout.addWidget(QLabel("שם לקוח:"))
+        layout.addWidget(self.client_name_edit)
+
+        self.issue_description_edit = QLineEdit(self)
+        self.issue_description_edit.setAlignment(Qt.AlignRight)
+        layout.addWidget(QLabel("תיאור בעיה:"))
+        layout.addWidget(self.issue_description_edit)
+
+        self.ticket_number_edit = QLineEdit(self)
+        self.ticket_number_edit.setAlignment(Qt.AlignRight)
+        layout.addWidget(QLabel("מספר טיקט:"))
+        layout.addWidget(self.ticket_number_edit)
+
+        self.responsible_person_edit = QLineEdit(self)
+        self.responsible_person_edit.setAlignment(Qt.AlignRight)
+        layout.addWidget(QLabel("אחראי:"))
+        layout.addWidget(self.responsible_person_edit)
+
+        self.result_text = QTextEdit(self)
+        self.result_text.setAlignment(Qt.AlignRight)
+        layout.addWidget(QLabel("תוצאה:"))
+        layout.addWidget(self.result_text)
+
+        generate_button = QPushButton("צור טקסט", self)
+        generate_button.clicked.connect(self.generate_text)
+        layout.addWidget(generate_button)
+
+        self.setLayout(layout)
+        self.setWindowTitle('מחולל טקסט')
+
+    def generate_text(self):
+        template = f"{self.word_type_combo.currentText()} - {self.solution_type_combo.currentText()}: לקוח {self.client_name_edit.text()} {self.issue_description_edit.text()} טיקט: {self.ticket_number_edit.text()}, מ\"ת: {self.responsible_person_edit.text()}"
+        self.result_text.setPlainText(template)
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = HebrewTextApp()
+    ex.show()
+    sys.exit(app.exec_())
